@@ -1,5 +1,7 @@
 # AptiSense
 
+[![Tests](https://github.com/Aryxzing/aptisense/actions/workflows/tests.yml/badge.svg)](https://github.com/Aryxzing/aptisense/actions/workflows/tests.yml)
+
 Aptitude assessment and placement-readiness platform for college students. Students take company-style mock tests (Quant, Logical, Verbal), track their performance over time, and get a readiness score with weak-topic feedback. Admins (placement coordinators) manage tests, upload study notes, and see batch-wide analytics.
 
 ![Student dashboard](docs/screenshots/student-dashboard.png)
