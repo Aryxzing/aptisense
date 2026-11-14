@@ -78,8 +78,9 @@ function buildSeedTests() {
 async function seed() {
   await connectDB()
 
-  const adminEmail = 'admin@apsit.edu.in'
-  const studentEmail = 'student@apsit.edu.in'
+  const domain = (process.env.ALLOWED_EMAIL_DOMAIN || 'example.edu').trim().replace(/^@/, '')
+  const adminEmail = `admin@${domain}`
+  const studentEmail = `student@${domain}`
 
   const adminExists = await User.findOne({ email: adminEmail })
   const studentExists = await User.findOne({ email: studentEmail })

@@ -4,6 +4,7 @@ import { api } from '../api'
 import { useAuth } from '../auth-context'
 import { getErrorMessage } from '../error'
 import { useToast } from '../toast-context'
+import { EMAIL_DOMAIN } from '../email-domain'
 
 export default function LoginPage() {
   const navigate = useNavigate()
@@ -50,14 +51,16 @@ export default function LoginPage() {
               <div className="auth-form-kicker">Welcome Back</div>
               <h1 className="page-title" style={{ fontSize: '2rem' }}>Login</h1>
               <p className="page-subtitle">
-                Access your AptiSense workspace with your APSIT email.
+                Access your AptiSense workspace{EMAIL_DOMAIN ? ` with your @${EMAIL_DOMAIN} email` : ''}.
               </p>
             </div>
 
-            <div className="auth-credential-card">
-              <div className="metric-label">Campus Access</div>
-              <div className="auth-credential-domain">@apsit.edu.in</div>
-            </div>
+            {EMAIL_DOMAIN && (
+              <div className="auth-credential-card">
+                <div className="metric-label">Campus Access</div>
+                <div className="auth-credential-domain">@{EMAIL_DOMAIN}</div>
+              </div>
+            )}
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -66,13 +69,15 @@ export default function LoginPage() {
               <input
                 className="field"
                 type="email"
-                placeholder="Enter your @apsit.edu.in email"
+                placeholder={EMAIL_DOMAIN ? `Enter your @${EMAIL_DOMAIN} email` : 'Enter your email'}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              <p className="mt-2 text-xs" style={{ color: 'var(--color-text-muted)' }}>
-                Only APSIT email addresses are allowed.
-              </p>
+              {EMAIL_DOMAIN && (
+                <p className="mt-2 text-xs" style={{ color: 'var(--color-text-muted)' }}>
+                  Only @{EMAIL_DOMAIN} email addresses are allowed.
+                </p>
+              )}
             </div>
 
             <div>

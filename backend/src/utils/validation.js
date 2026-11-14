@@ -6,8 +6,14 @@ function isEmail(value) {
   return isNonEmptyString(value) && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())
 }
 
-function isApsitEmail(value) {
-  return isEmail(value) && value.trim().toLowerCase().endsWith('@apsit.edu.in')
+// Optional: limit sign-up to one institute's email domain, e.g. ALLOWED_EMAIL_DOMAIN=college.edu
+function allowedEmailDomain() {
+  return (process.env.ALLOWED_EMAIL_DOMAIN || '').trim().toLowerCase().replace(/^@/, '')
+}
+
+function isAllowedDomain(value) {
+  const domain = allowedEmailDomain()
+  return !domain || value.trim().toLowerCase().endsWith(`@${domain}`)
 }
 
 function validateAuthPayload(payload, mode) {
@@ -27,8 +33,8 @@ function validateAuthPayload(payload, mode) {
 
   if (!isEmail(payload.email)) {
     errors.push('A valid email is required')
-  } else if (!isApsitEmail(payload.email)) {
-    errors.push('Only @apsit.edu.in email addresses are allowed')
+  } else if (!isAllowedDomain(payload.email)) {
+    errors.push(`Only @${allowedEmailDomain()} email addresses are allowed`)
   }
 
   if (!isNonEmptyString(payload.password)) {

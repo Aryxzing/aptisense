@@ -4,6 +4,7 @@ import { api } from '../api'
 import { useAuth } from '../auth-context'
 import { getErrorMessage } from '../error'
 import { useToast } from '../toast-context'
+import { EMAIL_DOMAIN } from '../email-domain'
 
 export default function RegisterPage() {
   const navigate = useNavigate()
@@ -73,13 +74,15 @@ export default function RegisterPage() {
             <input
               className="field"
               type="email"
-              placeholder="Enter your @apsit.edu.in email"
+              placeholder={EMAIL_DOMAIN ? `Enter your @${EMAIL_DOMAIN} email` : 'Enter your email'}
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
             />
-            <p className="mt-2 text-xs" style={{ color: 'var(--color-text-muted)' }}>
-              Registration is limited to APSIT email addresses.
-            </p>
+            {EMAIL_DOMAIN && (
+              <p className="mt-2 text-xs" style={{ color: 'var(--color-text-muted)' }}>
+                Registration is limited to @{EMAIL_DOMAIN} email addresses.
+              </p>
+            )}
           </div>
 
           <div>

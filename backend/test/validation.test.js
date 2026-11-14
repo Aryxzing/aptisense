@@ -9,8 +9,8 @@ const {
 
 test('validateAuthPayload accepts a valid register payload', () => {
   const errors = validateAuthPayload({
-    name: 'Aryan Kumar',
-    email: 'aryan@apsit.edu.in',
+    name: 'Test Student',
+    email: 'student@example.edu',
     password: 'secure123',
     role: 'student'
   }, 'register')
@@ -115,4 +115,19 @@ test('validateTestPayload rejects broken test definitions', () => {
     'Question 1 in section 1 must have at least 2 options',
     'Question 1 in section 1 has an invalid correctAnswer index'
   ])
+})
+
+test('validateAuthPayload enforces ALLOWED_EMAIL_DOMAIN when it is set', () => {
+  const previous = process.env.ALLOWED_EMAIL_DOMAIN
+  process.env.ALLOWED_EMAIL_DOMAIN = 'college.edu'
+  try {
+    const base = { name: 'Test Student', password: 'secure123', role: 'student' }
+    assert.deepEqual(validateAuthPayload({ ...base, email: 'student@college.edu' }, 'register'), [])
+    assert.deepEqual(validateAuthPayload({ ...base, email: 'student@gmail.com' }, 'register'), [
+      'Only @college.edu email addresses are allowed'
+    ])
+  } finally {
+    if (previous === undefined) delete process.env.ALLOWED_EMAIL_DOMAIN
+    else process.env.ALLOWED_EMAIL_DOMAIN = previous
+  }
 })

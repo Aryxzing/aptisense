@@ -20,7 +20,7 @@ Aptitude assessment and placement-readiness platform for college students. Stude
 
 **Platform**
 - JWT authentication with role-based access (student / admin)
-- Registration restricted to institute email addresses (`@apsit.edu.in`)
+- Optional restriction of sign-up to one institute's email domain (`ALLOWED_EMAIL_DOMAIN`)
 - Backend test suite using Node's built-in test runner
 
 ## Tech Stack
@@ -76,7 +76,7 @@ npm run dev
 
 Open http://localhost:5173.
 
-The seed script creates two local demo accounts: `admin@apsit.edu.in` / `admin1234` and `student@apsit.edu.in` / `student1234`. Change these before deploying anywhere public.
+The seed script creates two local demo accounts: `admin@example.edu` / `admin1234` and `student@example.edu` / `student1234` (the domain follows `ALLOWED_EMAIL_DOMAIN` when it is set). Change these before deploying anywhere public.
 
 ## Tests
 
